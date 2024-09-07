@@ -122,38 +122,110 @@ particlesJS('particles-js',
 
 );
 
-
 const openWeatherMapToken = '4aa285508118d106aa265c2c2397529f';
+let inhtm = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".8" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0.05"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".6" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".1"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".4" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".15"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".2" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".2"></animate>
+    </circle>
+</svg>`;
+
+// Initialize container with preloader and weather city div
+document.querySelector('.container').innerHTML = `${inhtm}<div class='Weather_city'></div>`;
+
+let retryInterval;
+
+const fetchWeather = async (city) => {
+    document.querySelector('.container>svg').classList.remove('hidden'); // Show preloader
+
+    if (!city) {
+        alert("Please enter a city name.");
+        return;
+    }
+
+    try {
+        if (!navigator.onLine) {
+            throw new Error('You are offline. Please reconnect to get updated weather data.');
+        }
+
+        // Fetch weather details from Django API
+        const weatherResponse = await fetch(`/api/weather?city=${city}`, {
+            headers: {
+                'Authorization': `Bearer ${openWeatherMapToken}`
+            }
+        });
+
+        if (!weatherResponse.ok) {
+            throw new Error(weatherResponse.status === 404 ? 'City not found' : 'Unable to fetch weather data');
+        }
+
+        const weatherData = await weatherResponse.json();
+
+        // Display weather details
+        document.querySelector('.Weather_city').innerHTML = `
+        <h2>Weather in ${city}</h2>
+        <p><strong>Temperature:</strong> ${Math.round(weatherData.main.temp - 273.15)}°C</p>
+        <p><strong>Weather:</strong> ${weatherData.weather[0].description}</p>
+        <p><strong>Humidity:</strong> ${weatherData.main.humidity}%</p>
+        <p><strong>Wind Speed:</strong> ${weatherData.wind.speed} m/s</p>
+        `;
+        
+        clearInterval(retryInterval); // Stop retrying once the data is successfully fetched
+        document.getElementById('cityInput').value = '';
+    } catch (error) {
+        document.querySelector('.Weather_city').innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+
+        if (error.message.includes('offline')) {
+            // Start checking for reconnection and refetch data when online
+            retryInterval = setInterval(() => {
+                if (navigator.onLine) {
+                    fetchWeather(city); // Retry fetching weather data when online
+                }
+            }, 2000); // Retry every 5 seconds
+        }
+    } finally {
+        document.querySelector('.container>svg').classList.add('hidden'); // Hide preloader after processing
+    }
+};
+
+// Initialize weather data for 'delhi' when the page loads
+window.addEventListener('load', () => {
+    fetchWeather('delhi');
+});
+
+// Event listener for form submission
 document.querySelector('#submit').addEventListener('submit', async (e) => {
     e.preventDefault();
-// });
-    // document.getElementById('fetchWeatherBtn').addEventListener('click', async () => {
-        const city = document.getElementById('cityInput').value;
-        if (!city) {
-            alert("Please enter a city name.");
-            return;
-        }
-
-        try {
-            // Step 1: Get Weather Details from OpenWeatherMap for the entered city
-            const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${openWeatherMapToken}`);
-
-            if (!weatherResponse.ok) {
-                throw new Error('City not found');
+    let city = document.getElementById('cityInput').value || 'delhi'; // Use 'delhi' if no city is entered
+    document.querySelector('.container').innerHTML = `${inhtm}<div class='Weather_city'></div>`; // Reset container
+    let retryFetch = (city) => {
+        retryInterval = setInterval(() => {
+            if (navigator.onLine) {
+                console.log('Online! Fetching data...');
+                fetchWeather(city);
+            } else {
+                console.log('Still offline. Retrying...');
             }
+        }, 500); // Retry every 5 seconds
+    };
+    retryFetch(city);
+     // Fetch and display weather data
+});
 
-            const weatherData = await weatherResponse.json();
-
-            // Step 2: Display Weather Details
-            document.querySelector('.container').innerHTML = `
-                    <h2>Weather in ${city}</h2>
-                    <p><strong>Temperature:</strong> ${Math.round(weatherData.main.temp - 273.15)}°C</p>
-                    <p><strong>Weather:</strong> ${weatherData.weather[0].description}</p>
-                    <p><strong>Humidity:</strong> ${weatherData.main.humidity}%</p>
-                    <p><strong>Wind Speed:</strong> ${weatherData.wind.speed} m/s</p>
-                `;
-
-        } catch (error) {
-            document.getElementById('weatherDetails').innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
-        }
-    });
+// Event listener for online status
+window.addEventListener('online', () => {
+    let city = document.getElementById('cityInput').value || 'delhi'; // Use 'delhi' if no city is entered
+    fetchWeather(city);
+});
