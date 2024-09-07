@@ -1,5 +1,314 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent
+}
+
+body {
+    line-height: 1
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block
+}
+
+nav ul {
+    list-style: none
+}
+
+blockquote,
+q {
+    quotes: none
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: none
+}
+
+a {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    text-decoration: none
+}
+
+mark {
+    background-color: #ff9;
+    color: #000;
+    font-style: italic;
+    font-weight: bold
+}
+
+del {
+    text-decoration: line-through
+}
+
+abbr[title],
+dfn[title] {
+    border-bottom: 1px dotted;
+    cursor: help
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0
+}
+
+input,
+select {
+    vertical-align: middle
+}
+
+li {
+    list-style: none
+}
+
+
+/* =============================================================================
+      My CSS
+      ========================================================================== */
+
+/* ---- base ---- */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #111;
+}
+
+html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    font: normal 75% Arial, Helvetica, sans-serif;
+}
+
+canvas {
+    display: block;
+    vertical-align: bottom;
+}
+
+
+/* ---- stats.js ---- */
+
+.count-particles {
+    background: #000022;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 80px;
+    color: #13E8E9;
+    font-size: .8em;
+    text-align: left;
+    text-indent: 4px;
+    line-height: 14px;
+    padding-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.js-count-particles {
+    font-size: 1.1em;
+}
+
+#stats,
+.count-particles {
+    -webkit-user-select: none;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#stats {
+    border-radius: 3px 3px 0 0;
+    overflow: hidden;
+}
+
+.count-particles {
+    border-radius: 0 0 3px 3px;
+}
+
+
+/* ---- particles.js container ---- */
+
+#particles-js {
+    margin-left: auto;
+    margin-right: auto;
+    float: right;
+    width: 100%;
+    height: 100%;
+    background-color: #375377;
+    background-image: radial-gradient(to right, #045e40 0%, #034863 100%);
+    animation: animate 3s ease-in-out infinite forwards alternate;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: fixed;
+    z-index: 0;
+    opacity: 0.9;
+    transition: all 1s ease-in-out;
+    -webkit-animation: animate 3s ease-in-out infinite forwards alternate;
+}
+
+@keyframes animate {
+    0% {
+        filter: contrast(100%) drop-shadow(0px 0px 0px hsla(189, 13%, 20%, 0.473)) opacity(0.8) hue-rotate(0deg);
+        -webkit-filter: contrast(100%) drop-shadow(0px 0px 0px hsla(189, 13%, 20%, 0.473)) opacity(0.8) hue-rotate(0deg);
+    }
+
+    100% {
+        filter: contrast(100%) drop-shadow(0px 3px 5px hsla(189, 13%, 20%, 0.473)) opacity(.9) hue-rotate(360deg);
+        -webkit-filter: contrast(100%) drop-shadow(0px 3px 5px hsla(189, 13%, 20%, 0.473)) opacity(.9) hue-rotate(360deg);
+    }
+}
+
+.particle {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: fixed;
+    z-index: 0;
+    opacity: 0.9;
+    align-items: center;
+    justify-content: center;
+}
+
+.gradient-custom {
+    background: linear-gradient(45deg, #3399b6 0%, #23c536 100%);
+    animation: animate 10s ease-in-out infinite forwards alternate;
+    -webkit-animation: animate 10s ease-in-out infinite forwards alternate;
+    margin-bottom: 4px;
+}
+
+.navbar-brand {
+    background: linear-gradient(45deg,#ce0ed4, #0f3fdd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gb-grad{
+    opacity: 1 !important;
+    z-index: 4;
+}
+
+.container{
+    z-index: 10;
+    position: relative;
+    border: 5px solid rgb(201, 24, 24);
+    display: block;
+    margin: 0 8px 0 5px;
+    float: right;
+    padding: 10px;
+    width: 25vw;
+    height: auto;
+    background-color: rgb(30, 122, 184);
 }
