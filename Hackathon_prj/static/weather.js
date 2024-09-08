@@ -1,11 +1,7 @@
-async function fetchExtremeWeatherCities() {
-    try {
-        const response = await fetch('/api/extreme-weather-cities');
-        const data = await response.json();
-        console.log('Extreme Weather Cities:', data.extreme_cities);
-    } catch (error) {
-        console.error('Error fetching extreme weather cities:', error);
-    }
+let weather_data = async () => {
+    let response = await fetch('city-weather/');
+    let extre_weather = await response.json();
+    console.log(extre_weather);
 }
 
-window.addEventListener('load', fetchExtremeWeatherCities);
+weather_data();

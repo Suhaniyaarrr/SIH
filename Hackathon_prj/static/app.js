@@ -178,6 +178,7 @@ const fetchWeather = async (city) => {
         // weather emojis are here
 
         const response = await fetch('static/weatherEmojis.json');
+        console.log('hello');
         const emojiMap = await response.json();
         const weatherDescription = weatherData.weather[0].description;  // Example description
 
