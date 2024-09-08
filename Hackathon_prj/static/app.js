@@ -193,7 +193,7 @@ const fetchWeather = async (city) => {
                 if (navigator.onLine) {
                     fetchWeather(city); // Retry fetching weather data when online
                 }
-            }, 2000); // Retry every 5 seconds
+            }, 500); // Retry every 5 seconds
         }
     } finally {
         document.querySelector('.container>svg').classList.add('hidden'); // Hide preloader after processing
@@ -218,7 +218,7 @@ document.querySelector('#submit').addEventListener('submit', async (e) => {
             } else {
                 console.log('Still offline. Retrying...');
             }
-        }, 500); // Retry every 5 seconds
+        }, 300); // Retry every 5 seconds
     };
     retryFetch(city);
      // Fetch and display weather data
