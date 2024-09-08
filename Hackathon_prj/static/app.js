@@ -121,8 +121,12 @@ particlesJS('particles-js',
     }
 
 );
-
-const openWeatherMapToken = '4aa285508118d106aa265c2c2397529f';
+fetch('/get-api-key/')
+    .then(response => response.json())
+    .then(data => {
+        const openWeatherMapToken = data.api_key;
+        // Now use openWeatherMapToken in your code
+    
 let inhtm = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
     <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="35" cy="100">
@@ -169,7 +173,7 @@ const fetchWeather = async (city) => {
             throw new Error(weatherResponse.status === 404 ? 'City not found' : 'Unable to fetch weather data');
         }
 
-        if(weatherResponse.status === 503) {
+        if (weatherResponse.status === 503) {
             console.log('connect to internet');
         }
 
@@ -229,7 +233,7 @@ window.addEventListener('online', () => {
     fetchWeather(city);
 });
 
-
-
-//open api key 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
-// user api sk-WXm4_drVvIVp3og3itf3MBBlQOmFBAsSF6Nvf-zoHOT3BlbkFJt-kChuREeoQj4sILIgUjnFNIK2BwFm8fLdBN-Y-MIA
+})
+.catch(error => {
+    // console.error('Error fetching API key:', error);
+});

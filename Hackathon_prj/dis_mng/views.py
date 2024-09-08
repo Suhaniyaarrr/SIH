@@ -6,12 +6,15 @@ import os
 from django.conf import settings
 import json
 from .models import City, Weather
+from decouple import config
+
+api_key = config('OPENWEATHERMAP_API_KEY')
 
 @require_GET
 def weather_data(request):
     try:
         city = request.GET.get('city', 'delhi')
-        api_key = '4aa285508118d106aa265c2c2397529f'
+        api_key = config('OPENWEATHERMAP_API_KEY')
         url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
 
         response = requests.get(url)
@@ -46,7 +49,7 @@ def cities_with_states(request):
     with open(json_file_path1, 'r', encoding='utf-8') as file1:
         cities_with_states1 = json.load(file1)
     
-    api_key = '4aa285508118d106aa265c2c2397529f'
+    api_key = config('OPENWEATHERMAP_API_KEY')
     for item in cities_with_states1:
         city_name = item['city']
         state_name = item['state']
@@ -104,3 +107,6 @@ def city_weather_view(request):
     # Return data as JSON
     return JsonResponse(str_vul, safe=False)
 
+def get_openweathermap_api_key(request):
+    api_key = config('OPENWEATHERMAP_API_KEY')
+    return JsonResponse({'api_key': api_key})
