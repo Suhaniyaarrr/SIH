@@ -2,8 +2,9 @@ from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 import requests
-
-
+# from dis_mng.models import CityWeather
+# from dis_mng.models import Weather
+# import json
 @require_GET
 def weather_data(request):
     try:
@@ -33,3 +34,12 @@ def weather_data(request):
 
 def index(request):
     return render(request, 'index.html')
+
+# def extreme_weather_cities(request):
+#     with open('static/extreme_weather_conditions.json', 'r') as file:
+#         extreme_weather_conditions = json.load(file)
+
+#     extreme_cities = Weather.objects.filter(description__in=extreme_weather_conditions.keys())
+#     data = list(extreme_cities.values('city__name', 'description', 'temperature', 'humidity', 'wind_speed'))
+
+#     return JsonResponse({'extreme_cities': data})
