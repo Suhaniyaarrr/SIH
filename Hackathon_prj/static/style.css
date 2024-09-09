@@ -333,3 +333,19 @@ canvas {
 svg{
     display: none;
 }
+
+#update-weather-btn{
+    z-index: 9999 !important;
+    left: 50%;
+    position: absolute;
+}
+
+#update-status{
+    height: 10vh;
+    width: 10vw;
+    z-index: 9999 !important;
+    left: 50%;
+    top: 20%;
+    position: absolute;
+    background-color: red;
+}

@@ -127,7 +127,7 @@ fetch('/get-api-key/')
         const openWeatherMapToken = data.api_key;
         // Now use openWeatherMapToken in your code
     
-let inhtm = `
+var inhtm = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
     <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="35" cy="100">
         <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0"></animate>
@@ -236,4 +236,58 @@ window.addEventListener('online', () => {
 })
 .catch(error => {
     // console.error('Error fetching API key:', error);
+});
+
+
+
+
+
+
+
+
+
+var inhtm = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".8" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin="0.05"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".6" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".1"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".4" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".15"></animate>
+    </circle>
+    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" opacity=".2" r="15" cx="35" cy="100">
+        <animate attributeName="cx" calcMode="spline" dur="2" values="35;165;165;35;35" keySplines="0 .1 .5 1;0 .1 .5 1;0 .1 .5 1;0 .1 .5 1" repeatCount="indefinite" begin=".2"></animate>
+    </circle>
+</svg>`;
+
+
+// adding manually
+document.getElementById('update-weather-btn').addEventListener('click', function() {
+    let updateWeather = async () => {
+        // Show preloader before fetching
+        document.querySelector('#update-status').innerHTML = inhtm;
+        console.log('Fetching updated weather data...');
+        // Fetch the updated weather data
+        let response = await fetch('api/cities_with_states/');
+        let extre_weather = await response.json();
+
+        // Display data or error message
+        if (extre_weather['status'] !== 'Data updated successfully') {
+            console.log('Error updating data');
+            document.querySelector('#update-status').innerHTML = `${inhtm}`;
+            document.querySelector('#update-status>svg').classList.remove('hidden');
+            document.querySelector('#update-status>svg').style.display = 'block !important';
+        } else {
+            console.log('Data updated successfully');
+            // Remove the preloader and display a success message
+            document.querySelector('#update-status').innerHTML = `<p>${extre_weather['status']}</p>`;
+        }
+    };
+
+    updateWeather();
 });

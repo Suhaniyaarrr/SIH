@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/cities_with_states/', views.cities_with_states, name='cities_with_states'),
     path('city-weather/', views.city_weather_view, name='city_weather'),
     path('get-api-key/', get_openweathermap_api_key, name='get_api_key'),
+    path('update-weather/', views.cities_with_states, name='update_weather'),
     # path('extreme-weather/', views.extreme_weather_view, name='extreme_weather'),
 ]
